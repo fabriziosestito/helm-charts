@@ -2,6 +2,68 @@ apiVersion: v1
 entries:
   admission-controller:
   - annotations:
+      artifacthub.io/images: |
+        - name: controller
+          image: ghcr.io/kubewarden/adm-controller/controller:v1.38.0-rc.1
+        - name: audit-scanner
+          image: ghcr.io/kubewarden/adm-controller/audit-scanner:v1.38.0-rc.1
+        - name: policy-server
+          image: ghcr.io/kubewarden/adm-controller/policy-server:v1.38.0-rc.1
+        - name: kuberlr-kubectl
+          image: ghcr.io/rancher/kuberlr-kubectl:v8.1.1
+        - name: policy-reporter
+          image: ghcr.io/kyverno/policy-reporter:3.10.0
+        - name: policy-reporter-ui
+          image: ghcr.io/kyverno/policy-reporter-ui:2.8.1
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/display-name: Admission Controller
+      catalog.cattle.io/namespace: cattle-kubewarden-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/provides-gvr: policyservers.policies.kubewarden.io/v1
+      catalog.cattle.io/rancher-version: '>= 2.6.0-0 <= 2.15.100-0'
+      catalog.cattle.io/release-name: rancher-admission-controller
+      catalog.cattle.io/requests-cpu: 250m
+      catalog.cattle.io/requests-memory: 50Mi
+      catalog.cattle.io/type: cluster-tool
+      catalog.cattle.io/ui-component: kubewarden
+    apiVersion: v2
+    appVersion: v1.38.0-rc.1
+    created: "2026-09-11T09:11:42.071784631Z"
+    dependencies:
+    - condition: installOpenReportsCRDs
+      name: openreports
+      repository: https://openreports.github.io/reports-api
+      version: 0.2.1
+    - condition: auditScanner.policyReporter
+      name: policy-reporter
+      repository: https://kyverno.github.io/policy-reporter
+      version: 3.10.0
+    description: A Helm chart for deploying the Kubewarden stack
+    digest: 13c0d45372b4c78ff97a533b0523768a20cfbaa9af9da13cec6963824698c2a9
+    home: https://www.kubewarden.io/
+    icon: https://www.kubewarden.io/images/icon-kubewarden.svg
+    keywords:
+    - Kubewarden
+    - Security
+    - Infrastructure
+    - Monitoring
+    - policy agent
+    - policies
+    - validating webhook
+    - admissions controller
+    - policy report
+    - audit scanner
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: cncf-kubewarden-maintainers@lists.cncf.io
+      name: Kubewarden Maintainers
+      url: https://github.com/orgs/kubewarden/teams/maintainers
+    name: admission-controller
+    type: application
+    urls:
+    - https://github.com/fabriziosestito/helm-charts/releases/download/admission-controller-6.1.0-rc.1/admission-controller-6.1.0-rc.1.tgz
+    version: 6.1.0-rc.1
+  - annotations:
       catalog.cattle.io/certified: rancher
       catalog.cattle.io/display-name: Kubewarden
       catalog.cattle.io/namespace: cattle-kubewarden-system
@@ -51,6 +113,57 @@ entries:
     - https://github.com/fabriziosestito/helm-charts/releases/download/admission-controller-6.0.0-alpha/admission-controller-6.0.0-alpha.tgz
     version: 6.0.0-alpha
   kubewarden-controller:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: deprecated
+          description: This Helm chart is deprecated in favor of the admission-controller
+      catalog.cattle.io/auto-install: kubewarden-crds=1.28.1
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/deprecated: "true"
+      catalog.cattle.io/display-name: Kubewarden
+      catalog.cattle.io/namespace: cattle-kubewarden-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/provides-gvr: policyservers.policies.kubewarden.io/v1
+      catalog.cattle.io/rancher-version: '>= 2.6.0-0 <= 2.15.100-0'
+      catalog.cattle.io/release-name: rancher-kubewarden-controller
+      catalog.cattle.io/requests-cpu: 250m
+      catalog.cattle.io/requests-memory: 50Mi
+      catalog.cattle.io/type: cluster-tool
+      catalog.cattle.io/ui-component: kubewarden
+    apiVersion: v2
+    appVersion: v1.36.0
+    created: "2026-09-11T09:11:42.302529581Z"
+    dependencies:
+    - condition: auditScanner.policyReporter
+      name: policy-reporter
+      repository: https://kyverno.github.io/policy-reporter
+      version: 3.7.4
+    deprecated: true
+    description: A Helm chart for deploying the Kubewarden stack
+    digest: 9b742dfacefd471db9a319c5bbda963f375caa49e5bcd82f84b9269ef8e507f5
+    home: https://www.kubewarden.io/
+    icon: https://www.kubewarden.io/images/icon-kubewarden.svg
+    keywords:
+    - Kubewarden
+    - Security
+    - Infrastructure
+    - Monitoring
+    - policy agent
+    - policies
+    - validating webhook
+    - admissions controller
+    - policy report
+    - audit scanner
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: cncf-kubewarden-maintainers@lists.cncf.io
+      name: Kubewarden Maintainers
+      url: https://github.com/orgs/kubewarden/teams/maintainers
+    name: kubewarden-controller
+    type: application
+    urls:
+    - https://github.com/fabriziosestito/helm-charts/releases/download/kubewarden-controller-5.14.1/kubewarden-controller-5.14.1.tgz
+    version: 5.14.1
   - annotations:
       catalog.cattle.io/auto-install: kubewarden-crds=1.28.0
       catalog.cattle.io/certified: rancher
@@ -567,6 +680,50 @@ entries:
     version: 2.4.0
   kubewarden-crds:
   - annotations:
+      artifacthub.io/changes: |
+        - kind: deprecated
+          description: This Helm chart is deprecated in favor of the admission-controller
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/deprecated: "true"
+      catalog.cattle.io/hidden: "true"
+      catalog.cattle.io/namespace: cattle-kubewarden-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/release-name: rancher-kubewarden-crds
+      catalog.cattle.io/type: cluster-tool
+    apiVersion: v2
+    appVersion: v1.36.0
+    created: "2026-09-11T09:11:42.442290267Z"
+    dependencies:
+    - condition: installOpenReportsCRDs
+      name: openreports
+      repository: https://openreports.github.io/reports-api
+      version: 0.2.1
+    deprecated: true
+    description: A Helm chart for deploying the Kubewarden CRDs
+    digest: a8da0c538521571b60cb5296abc43302512ff3fe5bdc53ef3711cfa42c02f63b
+    home: https://www.kubewarden.io/
+    icon: https://www.kubewarden.io/images/icon-kubewarden.svg
+    keywords:
+    - Kubewarden
+    - Security
+    - Infrastructure
+    - Monitoring
+    - policies
+    - policy agent
+    - validating webhook
+    - admissions controller
+    - policy report
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: cncf-kubewarden-maintainers@lists.cncf.io
+      name: Kubewarden Maintainers
+      url: https://github.com/orgs/kubewarden/teams/maintainers
+    name: kubewarden-crds
+    type: application
+    urls:
+    - https://github.com/fabriziosestito/helm-charts/releases/download/kubewarden-crds-1.28.1/kubewarden-crds-1.28.1.tgz
+    version: 1.28.1
+  - annotations:
       catalog.cattle.io/certified: rancher
       catalog.cattle.io/hidden: "true"
       catalog.cattle.io/namespace: cattle-kubewarden-system
@@ -889,6 +1046,48 @@ entries:
     - https://github.com/fabriziosestito/helm-charts/releases/download/kubewarden-crds-1.8.0/kubewarden-crds-1.8.0.tgz
     version: 1.8.0
   kubewarden-defaults:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: deprecated
+          description: This Helm chart is deprecated in favor of the admission-controller
+      catalog.cattle.io/auto-install: kubewarden-crds=1.28.1
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/deprecated: "true"
+      catalog.cattle.io/display-name: Kubewarden-defaults
+      catalog.cattle.io/hidden: "true"
+      catalog.cattle.io/namespace: cattle-kubewarden-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/release-name: rancher-kubewarden-defaults
+      catalog.cattle.io/type: cluster-tool
+      catalog.cattle.io/ui-component: kubewarden
+    apiVersion: v2
+    appVersion: v1.36.0
+    created: "2026-09-11T09:11:42.695435602Z"
+    deprecated: true
+    description: A Helm chart for deploying Kubewarden's default PolicyServer instance
+    digest: 22dd9d23edcdfa4752f61180c3d8f9e6af499bca77eab66ed33b855c2b399d89
+    home: https://www.kubewarden.io/
+    icon: https://www.kubewarden.io/images/icon-kubewarden.svg
+    keywords:
+    - Kubewarden
+    - Security
+    - Infrastructure
+    - Monitoring
+    - policy agent
+    - policies
+    - validating webhook
+    - admissions controller
+    - policy report
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: cncf-kubewarden-maintainers@lists.cncf.io
+      name: Kubewarden Maintainers
+      url: https://github.com/orgs/kubewarden/teams/maintainers
+    name: kubewarden-defaults
+    type: application
+    urls:
+    - https://github.com/fabriziosestito/helm-charts/releases/download/kubewarden-defaults-3.14.1/kubewarden-defaults-3.14.1.tgz
+    version: 3.14.1
   - annotations:
       catalog.cattle.io/auto-install: kubewarden-crds=1.28.0
       catalog.cattle.io/certified: rancher
@@ -1242,6 +1441,45 @@ entries:
       catalog.cattle.io/type: cluster-tool
       catalog.cattle.io/ui-component: sbomscanner
     apiVersion: v2
+    appVersion: v0.13.0-rc.1
+    created: "2026-09-11T09:11:42.861328908Z"
+    dependencies:
+    - name: nats
+      repository: https://nats-io.github.io/k8s/helm/charts/
+      version: 2.14.6
+    description: A SBOM-centric security scanner for Kubernetes.
+    digest: 98e2ca80bd66792d201cde96373d4e9541b3d3a8b931c4c07e9c3f59b455825a
+    home: https://www.kubewarden.io/
+    icon: https://www.kubewarden.io/images/icon-kubewarden.svg
+    keywords:
+    - Kubewarden
+    - Security
+    - Infrastructure
+    - SBOM
+    - Scanner
+    - Supply Chain
+    maintainers:
+    - email: cncf-kubewarden-maintainers@lists.cncf.io
+      name: Kubewarden Maintainers
+      url: https://github.com/orgs/kubewarden/teams/maintainers
+    name: sbomscanner
+    type: application
+    urls:
+    - https://github.com/fabriziosestito/helm-charts/releases/download/sbomscanner-0.13.0-rc.1/sbomscanner-0.13.0-rc.1.tgz
+    version: 0.13.0-rc.1
+  - annotations:
+      catalog.cattle.io/certified: rancher
+      catalog.cattle.io/display-name: SBOMscanner
+      catalog.cattle.io/namespace: cattle-sbomscanner-system
+      catalog.cattle.io/os: linux
+      catalog.cattle.io/provides-gvr: sbomscanner.kubewarden.io/v1alpha1
+      catalog.cattle.io/rancher-version: '>= 2.10.1-0 <= 2.15.100-0'
+      catalog.cattle.io/release-name: rancher-sbomscanner
+      catalog.cattle.io/requests-cpu: 500m
+      catalog.cattle.io/requests-memory: 128Mi
+      catalog.cattle.io/type: cluster-tool
+      catalog.cattle.io/ui-component: sbomscanner
+    apiVersion: v2
     appVersion: v0.12.0
     created: "2026-07-09T07:47:37.283868282Z"
     dependencies:
@@ -1307,4 +1545,4 @@ entries:
     urls:
     - https://github.com/fabriziosestito/helm-charts/releases/download/sbomscanner-0.10.1/sbomscanner-0.10.1.tgz
     version: 0.10.1
-generated: "2026-07-09T07:47:37.283988617Z"
+generated: "2026-09-11T09:11:42.861454596Z"
